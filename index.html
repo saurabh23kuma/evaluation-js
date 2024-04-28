@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employee Management System</title>
+<style>
+    body {
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.filters {
+  margin-bottom: 20px;
+}
+
+.filters select {
+  margin-right: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+}
+
+.pagination {
+  text-align: center;
+}
+
+button {
+  padding: 8px 16px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Employee Management System</h1>
+  <div class="filters">
+    <label for="department">Filter by Department:</label>
+    <select id="department">
+      <option value="">--Select Department--</option>
+      <option value="hr">HR</option>
+      <option value="finance">Finance</option>
+      <option value="marketing">Marketing</option>
+      <option value="engineering">Engineering</option>
+      <option value="operations">Operations</option>
+    </select>
+    <label for="gender">Filter by Gender:</label>
+    <select id="gender">
+      <option value="">--Select Gender--</option>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+      <option value="others">Others</option>
+    </select>
+    <label for="sort">Sort by Salary:</label>
+    <select id="sort">
+      <option value="">--Select Order--</option>
+      <option value="asc">Low to High</option>
+      <option value="desc">High to Low</option>
+    </select>
+  </div>
+  <table id="employee-table">
+    <thead>
+      <tr>
+        <th>S.no</th>
+        <th>Name</th>
+        <th>Gender</th>
+        <th>Department</th>
+        <th>Salary</th>
+      </tr>
+    </thead>
+    <tbody id="employee-list"></tbody>
+  </table>
+  <div class="pagination">
+    <button id="prev-btn" disabled>Previous</button>
+    <span id="page-num">Page 1</span>
+    <button id="next-btn">Next</button>
+  </div>
+</div>
+<script>
+    const baseUrl = "https://dbioz2ek0e.execute-api.ap-south-1.amazonaws.com/mockapi/get-employees";
+let currentPage = 1;
+const limit = 10;
+
+function fetchEmployees() {
+  const url = `${baseUrl}?page=${currentPage}&limit=${limit}`;
+  // Fetch data from API and update table
+}
+
+function filterEmployees() {
+  const department = document.getElementById("department").value;
+  const gender = document.getElementById("gender").value;
+  const sort = document.getElementById("sort").value;
+  // Apply filters and sorting to fetch the updated data
+}
+
+function updatePagination() {
+  const prevBtn = document.getElementById("prev-btn");
+  const nextBtn = document.getElementById("next-btn");
+  prevBtn.disabled = currentPage === 1;
+  nextBtn.disabled = false; // Update based on the last page
+  document.getElementById("page-num").innerText = `Page ${currentPage}`;
+}
+
+document.getElementById("prev-btn").addEventListener("click", () => {
+  currentPage--;
+  fetchEmployees();
+  updatePagination();
+});
+
+document.getElementById("next-btn").addEventListener("click", () => {
+  currentPage++;
+  fetchEmployees();
+  updatePagination();
+});
+
+document.getElementById("department").addEventListener("change", filterEmployees);
+document.getElementById("gender").addEventListener("change", filterEmployees);
+document.getElementById("sort").addEventListener("change", filterEmployees);
+
+// Initial fetch when the page loads
+fetchEmployees();
+
+</script>
+</body>
+</html>
